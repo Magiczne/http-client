@@ -1,0 +1,39 @@
+{
+  "name": "@magiczne/http-client",
+  "version": "1.0.0",
+  "description": "Very simple wrapper for window.fetch",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "test": "jest",
+    "test:coverage": "jest --collect-coverage"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Magiczne/http-client.git"
+  },
+  "author": {
+    "name": "Michał Kleszczyński",
+    "email": "michalkamilkleszczynski@gmail.com",
+    "url": "https://github.com/Magiczne"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Magiczne/http-client/issues"
+  },
+  "homepage": "https://github.com/Magiczne/http-client#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-plugin-node": "^11.1.0",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.6",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}
