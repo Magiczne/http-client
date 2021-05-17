@@ -40,7 +40,7 @@ export default {
   ],
 
   // The test environment that will be used for testing
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   testRegex: '/tests/.*\\.(test|spec)?\\.(ts|tsx)$',
