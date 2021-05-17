@@ -35,6 +35,10 @@ export default {
     '<rootDir>/tests'
   ],
 
+  setupFiles: [
+    '<rootDir>/jest.setup.ts'
+  ],
+
   // The test environment that will be used for testing
   testEnvironment: 'node',
 
