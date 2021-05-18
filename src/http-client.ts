@@ -1,7 +1,8 @@
 import { HttpError } from '@/http-error'
-import type { HttpMethod } from '@/http-method'
-import type { RequestBody } from '@/request-body'
-import type { RequestExtension } from '@/request-extension'
+
+type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+type RequestBody = unknown | FormData
+type RequestExtension = Partial<Omit<RequestInit, 'headers' | 'method' | 'body'>>
 
 class HttpClient {
     headers = new Headers()
@@ -56,6 +57,10 @@ class HttpClient {
 
         return requestInit
     }
+}
+
+export type {
+    HttpMethod, RequestBody, RequestExtension
 }
 
 export {
