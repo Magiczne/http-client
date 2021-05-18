@@ -59,6 +59,27 @@ class HttpClient {
         return requestInit
     }
 
+    // region Authorization
+
+    /**
+     * Set authorization header
+     *
+     * @param type Authorization type
+     * @param credentials Authorization credentials
+     */
+    authorize (type: string, credentials: string): void {
+        this.headers.set('Authorization', `${type} ${credentials}`)
+    }
+
+    /**
+     * Remove authorization header
+     */
+    unauthorize (): void {
+        this.headers.delete('Authorization')
+    }
+
+    // endregion
+
     // region Base Url
 
     /**

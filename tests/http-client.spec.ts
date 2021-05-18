@@ -186,6 +186,22 @@ describe('HttpClient', (): void => {
         })
     })
 
+    describe('authorization', (): void => {
+        it('should set and unset authorization header', () => {
+            expectIteratorLength(client.headers.entries(), 0)
+
+            client.authorize('Type', 'token')
+
+            expectIteratorLength(client.headers.entries(), 1)
+            expect(client.headers.has('Authorization')).toBe(true)
+            expect(client.headers.get('Authorization')).toBe('Type token')
+
+            client.unauthorize()
+
+            expectIteratorLength(client.headers.entries(), 0)
+        })
+    })
+
     describe('baseUrl', (): void => {
         it('should get and set baseUrl', (): void => {
             expect(client.baseUrl).toBe('')
