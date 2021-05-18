@@ -5,7 +5,8 @@ type RequestBody = unknown | FormData
 type RequestExtension = Partial<Omit<RequestInit, 'headers' | 'method' | 'body'>>
 
 class HttpClient {
-    headers = new Headers()
+    private _baseUrl = ''
+    public headers = new Headers()
 
     /**
      * Make request to the specified URL.
@@ -15,8 +16,8 @@ class HttpClient {
      * @param body Optional request body
      * @param request Additional params to the fetch request parameter
      */
-    request (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<Response> {
-        return fetch(url, this.makeRequestInit(method, body, request))
+    public request (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<Response> {
+        return fetch(this.urlTo(url), this.makeRequestInit(method, body, request))
             .then(response => {
                 if (response.status >= 200 && response.status < 400) {
                     return response
@@ -40,7 +41,7 @@ class HttpClient {
      * @param body Request body
      * @param request Additional request parameters
      */
-    makeRequestInit (method: HttpMethod, body?: RequestBody, request?: RequestExtension): RequestInit {
+    public makeRequestInit (method: HttpMethod, body?: RequestBody, request?: RequestExtension): RequestInit {
         const requestInit: RequestInit = {
             headers: this.headers,
             method: method,
@@ -57,6 +58,49 @@ class HttpClient {
 
         return requestInit
     }
+
+    // region Base Url
+
+    /**
+     * Get base url
+     */
+    public get baseUrl (): string {
+        return this._baseUrl
+    }
+
+    /**
+     * Set base url, removing trailing slash, as it
+     * will be added in the urlTo method.
+     *
+     * @param url
+     */
+    public set baseUrl (url: string) {
+        this._baseUrl = url.endsWith('/') ? url.slice(0, -1) : url
+    }
+
+    /**
+     * Get prefixed url if baseUrl is present
+     * or return passed argument if it is not.
+     *
+     * @param url
+     */
+    public urlTo (url: string): string {
+        if (this.baseUrl === '') {
+            return url
+        }
+
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url
+        }
+
+        if (url.startsWith('/')) {
+            url = url.substring(1)
+        }
+
+        return `${this.baseUrl}/${url}`
+    }
+
+    // endregion
 }
 
 export type {

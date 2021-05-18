@@ -1,8 +1,7 @@
 import fetchMock from 'jest-fetch-mock'
 
-import { HttpClient } from '@/http-client'
+import { HttpClient, RequestExtension } from '@/http-client'
 import { HttpError } from '@/http-error'
-import { RequestExtension } from '@/request-extension'
 
 import { expectIteratorLength } from './util/expect'
 
@@ -184,6 +183,58 @@ describe('HttpClient', (): void => {
                 method: 'PATCH',
                 body: formData
             })
+        })
+    })
+
+    describe('baseUrl', (): void => {
+        it('should get and set baseUrl', (): void => {
+            expect(client.baseUrl).toBe('')
+
+            client.baseUrl = 'https://example.com'
+            expect(client.baseUrl).toBe('https://example.com')
+        })
+
+        it('should remove trailing slash from base url', (): void => {
+            expect(client.baseUrl).toBe('')
+
+            client.baseUrl = 'https://example.com/'
+            expect(client.baseUrl).toBe('https://example.com')
+        })
+    })
+
+    describe('urlTo', (): void => {
+        it('should return argument if base url is not present', (): void => {
+            const url = client.urlTo('test')
+
+            expect(url).toBe('test')
+        })
+
+        it('should not remove trailing slash when base url is not present', (): void => {
+            const url = client.urlTo('/test')
+
+            expect(url).toBe('/test')
+        })
+
+        it('should return url prefixed with base path', (): void => {
+            client.baseUrl = 'https://example.com'
+            const url = client.urlTo('test')
+
+            expect(url).toBe('https://example.com/test')
+        })
+
+        it('should remove leading slash and return correct url when base path is present', (): void => {
+            client.baseUrl = 'https://example.com'
+            const url = client.urlTo('/test')
+
+            expect(url).toBe('https://example.com/test')
+        })
+
+        const protocols = ['http://', 'https://']
+        test.each(protocols)('should return url when starts with protocol (%s)', (protocol: string): void => {
+            client.baseUrl = 'https://example.com'
+            const url = client.urlTo(`${protocol}example2.com/test`)
+
+            expect(url).toBe(`${protocol}example2.com/test`)
         })
     })
 })
