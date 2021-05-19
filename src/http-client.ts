@@ -14,7 +14,7 @@ class HttpClient {
      * @param url Request url
      * @param method HTTP method. GET, POST, PATCH, PUT, DELETE supported
      * @param body Optional request body
-     * @param request Additional params to the fetch request parameter
+     * @param request Additional params to the fetch request parameters
      */
     public request (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<Response> {
         return fetch(this.urlTo(url), this.makeRequestInit(method, body, request))
@@ -119,6 +119,63 @@ class HttpClient {
         }
 
         return `${this.baseUrl}/${url}`
+    }
+
+    // endregion
+
+    // Base utility methods
+
+    /**
+     * Make GET request to the specified URL.
+     *
+     * @param url Request url
+     * @param request Additional params to the fetch request parameters
+     */
+    get (url: string, request?: RequestExtension): Promise<Response> {
+        return this.request(url, 'GET', undefined, request)
+    }
+
+    /**
+     * Make POST request to the specified URL.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameters
+     */
+    post (url: string, body?: RequestBody, request?: RequestExtension): Promise<Response> {
+        return this.request(url, 'POST', body, request)
+    }
+
+    /**
+     * Make PATCH request to the specified URL.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameters
+     */
+    patch (url: string, body?: RequestBody, request?: RequestExtension): Promise<Response> {
+        return this.request(url, 'PATCH', body, request)
+    }
+
+    /**
+     * Make PUT request to the specified URL.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameters
+     */
+    put (url: string, body?: RequestBody, request?: RequestExtension): Promise<Response> {
+        return this.request(url, 'PUT', body, request)
+    }
+
+    /**
+     * Make DELETE request to the specified URL.
+     *
+     * @param url Request url
+     * @param request Additional params to the fetch request parameters
+     */
+    delete (url: string, request?: RequestExtension): Promise<Response> {
+        return this.request(url, 'DELETE', undefined, request)
     }
 
     // endregion
