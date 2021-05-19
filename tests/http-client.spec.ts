@@ -189,6 +189,33 @@ describe('HttpClient', (): void => {
         })
     })
 
+    describe('json utility methods', (): void => {
+        it('json should set headers, call request and remove headers', (): void => {
+            const headersSetSpy = jest.spyOn(client.headers, 'set')
+            const headersDeleteSpy = jest.spyOn(client.headers, 'delete')
+            const requestSpy = jest.spyOn(client, 'request')
+
+            fetchMock.doMockOnce('[]')
+
+            client.json('https://example.com', 'POST', {}, {
+                mode: 'cors'
+            })
+
+            expect(headersSetSpy).toHaveBeenCalledTimes(2)
+            expect(headersSetSpy).toHaveBeenNthCalledWith(1, 'Accept', 'application/json')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(2, 'Content-Type', 'application/json')
+
+            expect(requestSpy).toHaveBeenCalledTimes(1)
+            expect(requestSpy).toHaveBeenCalledWith('https://example.com', 'POST', {}, {
+                mode: 'cors'
+            })
+
+            expect(headersDeleteSpy).toHaveBeenCalledTimes(2)
+            expect(headersDeleteSpy).toHaveBeenNthCalledWith(1, 'Accept')
+            expect(headersDeleteSpy).toHaveBeenNthCalledWith(2, 'Content-Type')
+        })
+    })
+
     describe('makeRequestInit', (): void => {
         it('should create request init from required parameters', (): void => {
             client.headers.set('Accept', 'application/json')

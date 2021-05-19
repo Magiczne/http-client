@@ -35,6 +35,26 @@ class HttpClient {
     }
 
     /**
+     * Make request to the specified URL and convert response to JSON.
+     *
+     * @param url Request url
+     * @param method HTTP method. GET, POST, PATCH, PUT, DELETE supported
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameter
+     */
+    public json<T> (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        this.headers.set('Accept', 'application/json')
+        this.headers.set('Content-Type', 'application/json')
+
+        const response = this.request(url, method, body, request)
+
+        this.headers.delete('Accept')
+        this.headers.delete('Content-Type')
+
+        return response.then(response => response.json() as Promise<T>)
+    }
+
+    /**
      * Create request init object for the fetch request
      *
      * @param method HTTP method
