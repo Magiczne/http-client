@@ -35,7 +35,7 @@ class HttpClient {
     }
 
     /**
-     * Make request to the specified URL and convert response to JSON.
+     * Make json request to the specified URL and convert response to json.
      *
      * @param url Request url
      * @param method HTTP method. GET, POST, PATCH, PUT, DELETE supported
@@ -197,6 +197,63 @@ class HttpClient {
      */
     delete (url: string, request?: RequestExtension): Promise<Response> {
         return this.request(url, 'DELETE', undefined, request)
+    }
+
+    // endregion
+
+    // region JSON request utility methods
+
+    /**
+     * Make json GET request to the specified URL and convert response to json.
+     *
+     * @param url Request url
+     * @param request Additional params to the fetch request parameter
+     */
+    public getJson<T> (url: string, request?: RequestExtension): Promise<T> {
+        return this.json<T>(url, 'GET', undefined, request)
+    }
+
+    /**
+     * Make json PUT request to the specified URL and convert response to json.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameter
+     */
+    public postJson<T> (url: string, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        return this.json<T>(url, 'POST', body, request)
+    }
+
+    /**
+     * Make json PUT request to the specified URL and convert response to json.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameter
+     */
+    public patchJson<T> (url: string, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        return this.json<T>(url, 'PATCH', body, request)
+    }
+
+    /**
+     * Make json PUT request to the specified URL and convert response to json.
+     *
+     * @param url Request url
+     * @param body Optional request body
+     * @param request Additional params to the fetch request parameter
+     */
+    public putJson<T> (url: string, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        return this.json<T>(url, 'PUT', body, request)
+    }
+
+    /**
+     * Make json DELETE request to the specified URL and convert response to json.
+     *
+     * @param url Request url
+     * @param request Additional params to the fetch request parameter
+     */
+    public deleteJson<T> (url: string, request?: RequestExtension): Promise<T> {
+        return this.json<T>(url, 'DELETE', undefined, request)
     }
 
     // endregion

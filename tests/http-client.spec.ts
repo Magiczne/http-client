@@ -199,6 +199,8 @@ describe('HttpClient', (): void => {
 
             client.json('https://example.com', 'POST', {}, {
                 mode: 'cors'
+            }).then(json => {
+                expect(json).toEqual([])
             })
 
             expect(headersSetSpy).toHaveBeenCalledTimes(2)
@@ -213,6 +215,91 @@ describe('HttpClient', (): void => {
             expect(headersDeleteSpy).toHaveBeenCalledTimes(2)
             expect(headersDeleteSpy).toHaveBeenNthCalledWith(1, 'Accept')
             expect(headersDeleteSpy).toHaveBeenNthCalledWith(2, 'Content-Type')
+        })
+
+        it('getJson should call json with correct parameters', (): void => {
+            const jsonSpy = jest.spyOn(client, 'json')
+
+            fetchMock.doMockOnce('[]')
+
+            client.getJson('https://example.com', {
+                mode: 'cors'
+            }).then(json => {
+                expect(json).toStrictEqual([])
+            })
+
+            expect(jsonSpy).toBeCalledTimes(1)
+            expect(jsonSpy).toBeCalledWith('https://example.com', 'GET', undefined, {
+                mode: 'cors'
+            })
+        })
+
+        it('postJson should call json with correct parameters', (): void => {
+            const jsonSpy = jest.spyOn(client, 'json')
+
+            fetchMock.doMockOnce('[]')
+
+            client.postJson('https://example.com', {}, {
+                mode: 'cors'
+            }).then(json => {
+                expect(json).toStrictEqual([])
+            })
+
+            expect(jsonSpy).toBeCalledTimes(1)
+            expect(jsonSpy).toBeCalledWith('https://example.com', 'POST', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('patchJson should call json with correct parameters', (): void => {
+            const jsonSpy = jest.spyOn(client, 'json')
+
+            fetchMock.doMockOnce('[]')
+
+            client.patchJson('https://example.com', {}, {
+                mode: 'cors'
+            }).then(json => {
+                expect(json).toStrictEqual([])
+            })
+
+            expect(jsonSpy).toBeCalledTimes(1)
+            expect(jsonSpy).toBeCalledWith('https://example.com', 'PATCH', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('putJson should call json with correct parameters', (): void => {
+            const jsonSpy = jest.spyOn(client, 'json')
+
+            fetchMock.doMockOnce('[]')
+
+            client.putJson('https://example.com', {}, {
+                mode: 'cors'
+            }).then(json => {
+                expect(json).toStrictEqual([])
+            })
+
+            expect(jsonSpy).toBeCalledTimes(1)
+            expect(jsonSpy).toBeCalledWith('https://example.com', 'PUT', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('deleteJson should call json with correct parameters', (): void => {
+            const jsonSpy = jest.spyOn(client, 'json')
+
+            fetchMock.doMockOnce('[]')
+
+            client.deleteJson('https://example.com', {
+                mode: 'cors'
+            }).then(json => {
+                expect(json).toStrictEqual([])
+            })
+
+            expect(jsonSpy).toBeCalledTimes(1)
+            expect(jsonSpy).toBeCalledWith('https://example.com', 'DELETE', undefined, {
+                mode: 'cors'
+            })
         })
     })
 
