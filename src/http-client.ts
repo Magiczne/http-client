@@ -123,7 +123,7 @@ class HttpClient {
 
     // endregion
 
-    // Base utility methods
+    // region Request utility methods
 
     /**
      * Make GET request to the specified URL.

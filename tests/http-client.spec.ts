@@ -122,6 +122,73 @@ describe('HttpClient', (): void => {
         })
     })
 
+    describe('request utility methods', (): void => {
+        it('get should call request with correct parameters', (): void => {
+            const requestSpy = jest.spyOn(client, 'request')
+
+            client.get('https://example.com', {
+                mode: 'cors'
+            })
+
+            expect(requestSpy).toBeCalledTimes(1)
+            expect(requestSpy).toBeCalledWith('https://example.com', 'GET', undefined, {
+                mode: 'cors'
+            })
+        })
+
+        it('post should call request with correct parameters', (): void => {
+            const requestSpy = jest.spyOn(client, 'request')
+
+            client.post('https://example.com', {}, {
+                mode: 'cors'
+            })
+
+            expect(requestSpy).toBeCalledTimes(1)
+            expect(requestSpy).toBeCalledWith('https://example.com', 'POST', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('patch should call request with correct parameters', (): void => {
+            const requestSpy = jest.spyOn(client, 'request')
+
+            client.patch('https://example.com', {}, {
+                mode: 'cors'
+            })
+
+            expect(requestSpy).toBeCalledTimes(1)
+            expect(requestSpy).toBeCalledWith('https://example.com', 'PATCH', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('put should call request with correct parameters', (): void => {
+            const requestSpy = jest.spyOn(client, 'request')
+
+            client.put('https://example.com', {}, {
+                mode: 'cors'
+            })
+
+            expect(requestSpy).toBeCalledTimes(1)
+            expect(requestSpy).toBeCalledWith('https://example.com', 'PUT', {}, {
+                mode: 'cors'
+            })
+        })
+
+        it('delete should call request with correct parameters', (): void => {
+            const requestSpy = jest.spyOn(client, 'request')
+
+            client.delete('https://example.com', {
+                mode: 'cors'
+            })
+
+            expect(requestSpy).toBeCalledTimes(1)
+            expect(requestSpy).toBeCalledWith('https://example.com', 'DELETE', undefined, {
+                mode: 'cors'
+            })
+        })
+    })
+
     describe('makeRequestInit', (): void => {
         it('should create request init from required parameters', (): void => {
             client.headers.set('Accept', 'application/json')
@@ -245,6 +312,7 @@ describe('HttpClient', (): void => {
             expect(url).toBe('https://example.com/test')
         })
 
+        // noinspection HttpUrlsUsage
         const protocols = ['http://', 'https://']
         test.each(protocols)('should return url when starts with protocol (%s)', (protocol: string): void => {
             client.baseUrl = 'https://example.com'
