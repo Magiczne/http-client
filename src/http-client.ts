@@ -130,6 +130,7 @@ class HttpClient {
             return url
         }
 
+        // noinspection HttpUrlsUsage
         if (url.startsWith('http://') || url.startsWith('https://')) {
             return url
         }
