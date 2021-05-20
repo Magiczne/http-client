@@ -190,12 +190,16 @@ describe('HttpClient', (): void => {
     })
 
     describe('json utility methods', (): void => {
-        it('json should set headers, call request and remove headers', (): void => {
+        it('json should set headers, call request and restore previous headers', (): void => {
             const headersSetSpy = jest.spyOn(client.headers, 'set')
-            const headersDeleteSpy = jest.spyOn(client.headers, 'delete')
             const requestSpy = jest.spyOn(client, 'request')
 
             fetchMock.doMockOnce('[]')
+
+            client.headers.set('Accept', 'text/html')
+            client.headers.set('Content-Type', 'text/html')
+
+            expect(headersSetSpy).toHaveBeenCalledTimes(2)
 
             client.json('https://example.com', 'POST', {}, {
                 mode: 'cors'
@@ -203,18 +207,50 @@ describe('HttpClient', (): void => {
                 expect(json).toEqual([])
             })
 
-            expect(headersSetSpy).toHaveBeenCalledTimes(2)
-            expect(headersSetSpy).toHaveBeenNthCalledWith(1, 'Accept', 'application/json')
-            expect(headersSetSpy).toHaveBeenNthCalledWith(2, 'Content-Type', 'application/json')
+            expect(headersSetSpy).toHaveBeenCalledTimes(6)
+            expect(headersSetSpy).toHaveBeenNthCalledWith(1, 'Accept', 'text/html')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(2, 'Content-Type', 'text/html')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(3, 'Accept', 'application/json')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(4, 'Content-Type', 'application/json')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(5, 'Accept', 'text/html')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(6, 'Content-Type', 'text/html')
+            expectIteratorLength(client.headers.entries(), 2)
 
             expect(requestSpy).toHaveBeenCalledTimes(1)
             expect(requestSpy).toHaveBeenCalledWith('https://example.com', 'POST', {}, {
                 mode: 'cors'
             })
+        })
+
+        it('json should remove json headers if defaults were not specified', (): void => {
+            const headersDeleteSpy = jest.spyOn(client.headers, 'delete')
+            const headersSetSpy = jest.spyOn(client.headers, 'set')
+
+            fetchMock.doMockOnce('[]')
+
+            client.json('https://example.com', 'POST', new FormData())
+                .then(json => {
+                    expect(json).toEqual([])
+                })
 
             expect(headersDeleteSpy).toHaveBeenCalledTimes(2)
-            expect(headersDeleteSpy).toHaveBeenNthCalledWith(1, 'Accept')
-            expect(headersDeleteSpy).toHaveBeenNthCalledWith(2, 'Content-Type')
+            expect(headersSetSpy).toHaveBeenCalledTimes(2)
+            expectIteratorLength(client.headers.entries(), 0)
+        })
+
+        it('json should set multipart header when using form data as request body', (): void => {
+            const headersSetSpy = jest.spyOn(client.headers, 'set')
+
+            fetchMock.doMockOnce('[]')
+
+            client.json('https://example.com', 'POST', new FormData())
+                .then(json => {
+                    expect(json).toEqual([])
+                })
+
+            expect(headersSetSpy).toHaveBeenCalledTimes(2)
+            expect(headersSetSpy).toHaveBeenNthCalledWith(1, 'Accept', 'application/json')
+            expect(headersSetSpy).toHaveBeenNthCalledWith(2, 'Content-Type', 'multipart/form-data')
         })
 
         it('getJson should call json with correct parameters', (): void => {

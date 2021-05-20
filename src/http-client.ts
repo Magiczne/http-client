@@ -43,13 +43,25 @@ class HttpClient {
      * @param request Additional params to the fetch request parameter
      */
     public json<T> (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        const oldAccept = this.headers.get('Accept')
+        const oldContentType = this.headers.get('Content-Type')
+
         this.headers.set('Accept', 'application/json')
-        this.headers.set('Content-Type', 'application/json')
+        this.headers.set('Content-Type', body instanceof FormData ? 'multipart/form-data' : 'application/json')
 
         const response = this.request(url, method, body, request)
 
-        this.headers.delete('Accept')
-        this.headers.delete('Content-Type')
+        if (oldAccept) {
+            this.headers.set('Accept', oldAccept)
+        } else {
+            this.headers.delete('Accept')
+        }
+
+        if (oldContentType) {
+            this.headers.set('Content-Type', oldContentType)
+        } else {
+            this.headers.delete('Content-Type')
+        }
 
         return response.then(response => response.json() as Promise<T>)
     }
