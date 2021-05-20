@@ -24,6 +24,7 @@
     "email": "michalkamilkleszczynski@gmail.com",
     "url": "https://github.com/Magiczne"
   },
+  "keywords": ["fetch", "http", "api"],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Magiczne/http-client/issues"
