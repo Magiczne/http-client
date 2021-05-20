@@ -25,5 +25,8 @@
     "node/no-exports-assign": "error",
     "node/no-unpublished-bin": "error",
     "node/no-unpublished-require": "error"
-  }
+  },
+  "ignorePatterns": [
+    "dist/**"
+  ]
 }
