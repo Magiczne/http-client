@@ -6,7 +6,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
@@ -18,12 +18,13 @@
     "pretty": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2015"
+    "target": "esnext"
   },
   "include": [
     "src"
   ],
   "exclude": [
+    "dist",
     "node_modules"
   ]
 }
