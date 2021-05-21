@@ -1,5 +1,7 @@
 # http-client
-[![npm][badge]][0]
+[![npm version](https://badge.fury.io/js/%40magiczne%2Fhttp-client.svg)](https://badge.fury.io/js/%40magiczne%2Fhttp-client)
+![Tests](https://github.com/Magiczne/http-client/workflows/Tests/badge.svg)
+![Code Style](https://github.com/Magiczne/http-client/workflows/Code%20style/badge.svg)
 
 Very simple, no dependency [`window.fetch`][1] wrapper.
 
@@ -116,7 +118,6 @@ client.deleteJson(url, request)
 
 For detailed information about all exposed methods read [REFERENCE.md](REFERENCE.md).
 
-[badge]: https://img.shields.io/badge/dynamic/json?color=blue&label=npm&query=version&style=flat-square&url=https%3A%2F%2Fraw.githubusercontent.com%2FMagiczne%2Fhttp-client%2Fmaster%2Fpackage.json
 [0]: https://www.npmjs.com/package/@magiczne/http-client
 [1]: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
 [2]: https://developer.mozilla.org/en-US/docs/Web/API/Headers

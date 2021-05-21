@@ -234,23 +234,8 @@ describe('HttpClient', (): void => {
                 })
 
             expect(headersDeleteSpy).toHaveBeenCalledTimes(2)
-            expect(headersSetSpy).toHaveBeenCalledTimes(2)
+            expect(headersSetSpy).toHaveBeenCalledTimes(1)
             expectIteratorLength(client.headers.entries(), 0)
-        })
-
-        it('json should set multipart header when using form data as request body', (): void => {
-            const headersSetSpy = jest.spyOn(client.headers, 'set')
-
-            fetchMock.doMockOnce('[]')
-
-            client.json('https://example.com', 'POST', new FormData())
-                .then(json => {
-                    expect(json).toEqual([])
-                })
-
-            expect(headersSetSpy).toHaveBeenCalledTimes(2)
-            expect(headersSetSpy).toHaveBeenNthCalledWith(1, 'Accept', 'application/json')
-            expect(headersSetSpy).toHaveBeenNthCalledWith(2, 'Content-Type', 'multipart/form-data')
         })
 
         it('getJson should call json with correct parameters', (): void => {
