@@ -1,5 +1,7 @@
 # http-client
-[![npm][badge]][0]
+[![npm][badge]][0] 
+![Tests](https://github.com/Magiczne/http-client/workflows/Tests/badge.svg)
+![Code Style](https://github.com/Magiczne/http-client/workflows/Code%20Style/badge.svg)
 
 Very simple, no dependency [`window.fetch`][1] wrapper.
 
