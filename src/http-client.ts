@@ -43,14 +43,21 @@ class HttpClient {
      * @param request Additional params to the fetch request parameter
      */
     public json<T> (url: string, method: HttpMethod, body?: RequestBody, request?: RequestExtension): Promise<T> {
+        const isFormData = body instanceof FormData
         const oldAccept = this.headers.get('Accept')
         const oldContentType = this.headers.get('Content-Type')
 
+        // Set headers
         this.headers.set('Accept', 'application/json')
-        this.headers.set('Content-Type', body instanceof FormData ? 'multipart/form-data' : 'application/json')
+        if (!isFormData) {
+            // We don't have to set multipart/form-data here,
+            // because the browser will automagically do it for us.
+            this.headers.set('Content-Type', 'application/json')
+        }
 
         const response = this.request(url, method, body, request)
 
+        // Restore old headers
         if (oldAccept) {
             this.headers.set('Accept', oldAccept)
         } else {
@@ -63,6 +70,7 @@ class HttpClient {
             this.headers.delete('Content-Type')
         }
 
+        // Convert response to json
         return response.then(response => response.json() as Promise<T>)
     }
 
