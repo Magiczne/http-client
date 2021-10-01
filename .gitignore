@@ -218,3 +218,11 @@ tmp/
 temp/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,jetbrains+all
+
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
